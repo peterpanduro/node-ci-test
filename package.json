@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha ./test/test.js",
+    "start-dev": "./node_modules/.bin/nodemon --watch src --ext js,graphql --exec babel-node  src/index.js",
+    "build": "babel src -d build; cp .env build; cp src/schema.graphql build",
+    "start": "npm run build && node build/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,15 @@
   "bugs": {
     "url": "https://github.com/kodifiera/node-ci-test/issues"
   },
-  "homepage": "https://github.com/kodifiera/node-ci-test#readme"
+  "homepage": "https://github.com/kodifiera/node-ci-test#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.9.5",
+    "babel-cli": "^6.26.0",
+    "mocha": "^7.1.1",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
+  }
 }
