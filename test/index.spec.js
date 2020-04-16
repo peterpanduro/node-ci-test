@@ -1,7 +1,14 @@
-//var request = require('supertest');
-import request from 'supertest';
-var app = require('../src/index.js');describe('GET /', function() {
- it('respond with hello world', function(done) { //navigate to root and check the the response is "hello world"
- request(app).get('/').expect('hello world', done);
- });
-});
+import chai, {expect} from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../src/index'
+chai.use(chaiHttp);
+
+it('responds with hello world', done => {
+    chai.request(app)
+        .get('/')
+        .end((err ,res) => {
+            expect(err).to.be.null;
+            expect(res).to.have.status(200);
+            done();
+        })
+})
