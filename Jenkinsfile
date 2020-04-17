@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:12-alpine'
+            image 'docker_jenkins'
             args '-p 3000:3000 -v /var/jenkins_home/node_modules:/usr/src/app/node_modules'
         }
     }
@@ -24,7 +24,6 @@ pipeline {
             }
         }
         stage('Staging') { 
-            agent { docker true }
             steps {
                 sh 'npm run build'
                 script {
