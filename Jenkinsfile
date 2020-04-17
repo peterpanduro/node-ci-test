@@ -19,9 +19,17 @@ pipeline {
                 sh 'npm test'
             }
         }
-        stage('Deliver') { 
+        stage('Staging') { 
             steps {
                 sh 'npm run build'
+                sh 'docker build ./build -t kodifiera/node-ci-test'
+                sh 'docker run -p 3000:3000 -d kodifiera/node-ci-test'
+            }
+        }
+        stage('Deliver') {
+            steps {
+                input message: 'Publish?'
+                sh 'echo THIS SHOULD PUBLISH TO DOCKERHUB'
             }
         }
     }
