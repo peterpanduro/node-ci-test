@@ -24,7 +24,7 @@ pipeline {
             }
         }
         stage('Staging') { 
-            agent docker
+            agent { docker { image 'node:12-alpine' }}
             steps {
                 sh 'npm run build'
                 script {
