@@ -1,5 +1,4 @@
 pipeline {
-    def app
     agent {
         docker {
             image 'node:12-alpine'
@@ -8,6 +7,9 @@ pipeline {
     }
     environment { 
         CI = 'true'
+        registry = "kodifiera/node-ci-test"
+        registryCredential = 'docker-hub-credentials'
+        dockerImage = ''
     }
     stages {
         stage('Build') {
@@ -25,15 +27,18 @@ pipeline {
         stage('Staging') { 
             steps {
                 sh 'npm run build'
-                app = docker.build("kodifiera/node-ci-test")
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
             }
         }
         stage('Deliver') {
             steps {
                 input message: 'Publish?'
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                    app.push("${env.BUILD_NUMBER}")
-                    app.push("latest")
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
                 }
             }
         }
