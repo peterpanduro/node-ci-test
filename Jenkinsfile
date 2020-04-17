@@ -24,6 +24,7 @@ pipeline {
             }
         }
         stage('Staging') { 
+            agent docker
             steps {
                 sh 'npm run build'
                 script {
