@@ -2,11 +2,12 @@ pipeline {
     agent {
         docker {
             image 'node:12-alpine'
-            args '-p 3000:3000'
+            args '-p 3000:3000 -v /node_modules:/node_modules'
         }
     }
     environment { 
         CI = 'true'
+        HOME = '.'
         registry = "kodifiera/node-ci-test"
         registryCredential = 'docker-hub-credentials'
         dockerImage = ''
@@ -14,8 +15,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm cache clean -f'
-                sh 'rm -rf node_modules package-lock.json'
                 sh 'npm install'
             }
         }
