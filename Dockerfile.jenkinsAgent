@@ -14,4 +14,4 @@ ARG DOCKERGID
 # Setup users and groups
 RUN groupadd -og ${JENKINSGID} jenkins
 RUN groupmod -og ${DOCKERGID} docker
-RUN useradd -c "Jenkins user" -g ${JENKINSGID} -G ${DOCKERGID} -M -N -u ${JENKINSUID} jenkins
+RUN useradd -oc "Jenkins user" -g ${JENKINSGID} -G ${DOCKERGID} -M -N -u ${JENKINSUID} jenkins
