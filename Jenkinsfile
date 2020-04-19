@@ -1,13 +1,7 @@
 pipeline {
     agent {
-        /*
-        docker {
-            image 'docker_node-docker'
-            args '-p 3000:3000 -v /var/jenkins_home/node_modules:/usr/src/app/node_modules -v /var/run/docker.sock:/var/run/docker.sock -u node:docker'
-        }
-        */
         dockerfile {
-            filename 'Dockerfile.jenkinsAgent'
+            filename 'jenkinsAgent.Dockerfile'
             additionalBuildArgs  '--build-arg JENKINSUID=`id -u jenkins` --build-arg JENKINSGID=`id -g jenkins` --build-arg DOCKERGID=`stat -c %g /var/run/docker.sock`'
             args '-v /var/run/docker.sock:/var/run/docker.sock -u jenkins:docker'
         }
