@@ -14,7 +14,7 @@ pipeline {
         dockerImage = ''
     }
     stages {
-        stage('Build') {
+        stage('Init') {
             steps {
                 sh 'npm install'
             }
@@ -24,7 +24,7 @@ pipeline {
                 sh 'npm test'
             }
         }
-        stage('Staging') { 
+        stage('Build') {
             steps {
                 sh 'npm run build'
                 script {
@@ -32,9 +32,24 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Staging') {
+            when {
+                branch 'Development'
+            }
             steps {
-                input message: 'Publish?'
+                script {
+                    sh 'echo ============================='
+                    sh 'echo ===  NOT YET IMPLEMENTED  ==='
+                    sh 'echo Build from local docker image'
+                    sh 'echo ============================='
+                }
+            }
+        }
+        stage('Deliver') {
+            when {
+                branch 'Production'
+            }
+            steps {
                 script {
                     docker.withRegistry( '', registryCredential ) {
                         dockerImage.push()
