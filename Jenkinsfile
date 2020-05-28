@@ -1,14 +1,10 @@
 pipeline {
     agent {
-        docker {
-            image 'kodifiera/node-docker:latest'
+        dockerfile {
+            filename 'jenkinsAgent.Dockerfile'
+            additionalBuildArgs  '--build-arg JENKINSUID=`id -u jenkins` --build-arg JENKINSGID=`id -g jenkins` --build-arg DOCKERGID=`stat -c %g /var/run/docker.sock`'
             args '-v /var/run/docker.sock:/var/run/docker.sock -u jenkins:docker'
-            }
-        //dockerfile {
-        //    filename 'jenkinsAgent.Dockerfile'
-        //    additionalBuildArgs  '--build-arg JENKINSUID=`id -u jenkins` --build-arg JENKINSGID=`id -g jenkins` --build-arg DOCKERGID=`stat -c %g /var/run/docker.sock`'
-        //    args '-v /var/run/docker.sock:/var/run/docker.sock -u jenkins:docker'
-        //}
+        }
     }
     environment { 
         CI = 'true'
