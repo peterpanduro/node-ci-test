@@ -6,12 +6,10 @@ RUN echo "NODE Version:" && node --version
 RUN echo "NPM Version:" && npm --version
 RUN echo "Docker Version:" && docker --version
 
-
 ARG JENKINSUID
 ARG JENKINSGID
 ARG DOCKERGID
 
-# Setup users and groups
 RUN groupadd -og ${JENKINSGID} jenkins
 RUN groupmod -og ${DOCKERGID} docker
 RUN useradd -oc "Jenkins user" -g ${JENKINSGID} -G ${DOCKERGID} -M -N -u ${JENKINSUID} jenkins
