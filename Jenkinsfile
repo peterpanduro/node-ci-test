@@ -1,12 +1,11 @@
 pipeline {
-    agent any
-    //{
-        //dockerfile {
-        //    filename 'jenkinsAgent.Dockerfile'
-        //    additionalBuildArgs  '--build-arg JENKINSUID=`id -u jenkins` --build-arg JENKINSGID=`id -g jenkins` --build-arg DOCKERGID=`stat -c %g /var/run/docker.sock` -t jenkins_agent_node_ci'
-        //    args '-v /var/run/docker.sock:/var/run/docker.sock -u jenkins:docker'
-        //}
-    //}
+    agent {
+        dockerfile {
+            filename 'jenkinsAgent.Dockerfile'
+            additionalBuildArgs  '--build-arg JENKINSUID=`id -u jenkins` --build-arg JENKINSGID=`id -g jenkins` --build-arg DOCKERGID=`stat -c %g /var/run/docker.sock` -t jenkins_agent_node_ci'
+            args '-v /var/run/docker.sock:/var/run/docker.sock -u jenkins:docker'
+        }
+    }
     environment { 
         CI = 'true'
         HOME = '.'
@@ -17,7 +16,7 @@ pipeline {
     stages {
         stage('Init') {
             steps {
-                sh 'npm cache clean -f'
+                //sh 'npm cache clean -f'
                 sh 'rm -rf node_modules package-lock.json'
                 sh 'npm install'
             }
