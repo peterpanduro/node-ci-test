@@ -16,7 +16,6 @@ pipeline {
     stages {
         stage('Init') {
             steps {
-                //sh 'npm cache clean -f'
                 sh 'rm -rf node_modules package-lock.json'
                 sh 'npm install'
             }
